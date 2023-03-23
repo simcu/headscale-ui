@@ -54,6 +54,4 @@ jobs:
           context: .
           push: true
           tags: simcu/headscale-ui
-          labels:
-            - latest
-            - ${{ github.ref_name }}
+          labels: latest ${{ github.ref_name }}
