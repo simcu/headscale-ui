@@ -8,6 +8,14 @@ Only Use headscale http api,and save credit in localstorage.
 <img width="1371" alt="image" src="https://user-images.githubusercontent.com/11401602/227347584-905dd1e8-8b99-4292-8424-2f0e1399a031.png">
 <img width="1345" alt="image" src="https://user-images.githubusercontent.com/11401602/227347766-1d9d81c2-5e5a-43fb-ac3d-80d3a04c2f8c.png">
 
+## use docker
+> docker run -d --name headscale-ui -p 8888:80 simcu/headscale-ui
+
+then open http://127.0.0.1:8888/manager/
+
+if run it not on same domain with headscale, you need go login page manual.
+open http://127.0.0.1:8888/manager/#/login
+
 ## Depoly Method
 1. run in split server (need set cors)
 2. run with headscale same origin
