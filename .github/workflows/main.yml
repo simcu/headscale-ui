@@ -18,7 +18,7 @@ jobs:
         run: |
           version=`git describe --tags`
           npm i
-          ng build
+          npm run build
       - name: Create GitHub release
         uses: marvinpinto/action-automatic-releases@latest
         with:
