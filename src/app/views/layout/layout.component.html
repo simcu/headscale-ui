@@ -1,0 +1,30 @@
+<nz-layout>
+  <nz-header style="background-color: #fff">
+    <div class="logo"><img src="./assets/simcu.png"> HeadScaleUi</div>
+    <ul nz-menu nzMode="horizontal">
+      <li nz-menu-item nzMatchRouter routerLink="/machine">
+        <span nz-icon nzType="cluster"></span>
+        <span>Machine</span>
+      </li>
+      <li nz-menu-item nzMatchRouter routerLink="/user">
+        <span nz-icon nzType="team"></span>
+        <span>User</span>
+      </li>
+      <li nz-submenu nz-menu-item nzTitle="Exit" nzIcon="logout">
+        <ul>
+          <li nz-menu-item  (click)="exit()">
+            <span nz-icon nzType="logout"></span>
+            <span>Exit Now!</span>
+          </li>
+        </ul>
+
+      </li>
+    </ul>
+  </nz-header>
+  <nz-content>
+    <div class="inner-content">
+      <router-outlet></router-outlet>
+    </div>
+  </nz-content>
+  <nz-footer>Design By xRain@SimcuTeam ©2023</nz-footer>
+</nz-layout>

@@ -1,0 +1,37 @@
+.logo {
+  width: 260px;
+  height: 65px;
+  float: left;
+  line-height: 65px;
+  font-size: 24px;
+  font-weight: bold;
+  font-family: Arial;
+  vertical-align: middle;
+}
+.logo img {
+  width: 40px;
+  height: 40px;
+}
+
+[nz-menu] {
+  line-height: 64px;
+}
+
+nz-breadcrumb {
+  margin: 16px 0;
+}
+
+nz-content {
+  padding: 0 50px;
+}
+
+nz-footer {
+  text-align: center;
+}
+
+.inner-content {
+  background: #fff;
+  margin-top: 20px;
+  padding: 24px;
+  min-height: 280px;
+}

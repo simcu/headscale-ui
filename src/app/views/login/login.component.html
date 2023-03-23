@@ -1,0 +1,22 @@
+<nz-card style="width:450px; left:calc(50% - 225px);position: fixed; top:calc(50% - 160px)"
+         [nzTitle]="titleTpl" [nzExtra]="extraTemplate">
+  <p>Server Url:</p>
+  <p>{{serverUrl}}</p>
+  <p>ApiKeys:</p>
+  <p><input nz-input [(ngModel)]="apiKeys"/></p>
+  <p>
+    <button (click)="doLogin()" nz-button nzType="primary" nzSize="large" nzBlock>Login</button>
+  </p>
+</nz-card>
+<ng-template #extraTemplate>
+  <a (click)="showChangeServer()">Change Server</a>
+</ng-template>
+<ng-template #titleTpl>
+  <img src="./assets/simcu.png" width="30"> Server Login
+</ng-template>
+<nz-modal [(nzVisible)]="changeServerShow" nzTitle="Change Server" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <ng-container *nzModalContent>
+    <p>Server Url:</p>
+    <p><input nz-input [(ngModel)]="changeServerUrl"/></p>
+  </ng-container>
+</nz-modal>

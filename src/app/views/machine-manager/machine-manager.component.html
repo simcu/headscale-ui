@@ -1,0 +1,156 @@
+<nz-page-header [nzGhost]="false">
+  <nz-page-header-title>Machines</nz-page-header-title>
+  <nz-page-header-subtitle>
+    <nz-select [ngModel]="user" (ngModelChange)="userChange($event)" style="width: 180px;">
+      <nz-option nzValue="" nzLabel="All"></nz-option>
+      <nz-option [nzValue]="u.name" [nzLabel]="u.name" *ngFor="let u of users"></nz-option>
+    </nz-select>
+  </nz-page-header-subtitle>
+  <nz-page-header-extra>
+    <nz-space>
+      <button *nzSpaceItem nz-button nzType="primary" (click)="registerMachine()">Register Machine</button>
+    </nz-space>
+  </nz-page-header-extra>
+</nz-page-header>
+<nz-table #nzTable nzSize="small" [nzData]="machines" [nzFrontPagination]="false" nzTableLayout="fixed">
+  <thead>
+  <tr>
+    <th nzWidth="60px"></th>
+    <th nzWidth="60px">Id</th>
+    <th>Name</th>
+    <th>Owner</th>
+    <th>IpAddresses</th>
+    <th nzWidth="200px">Status</th>
+    <th nzWidth="125px">Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <ng-container *ngFor="let data of nzTable.data">
+    <tr>
+      <td [nzExpand]="expandSet.has(data.id)" (nzExpandChange)="onExpandChange(data.id, $event)"></td>
+      <td>{{ data.id }}</td>
+      <td>{{ data.givenName }}<span *ngIf="data.givenName!==data.name"> ({{data.name}})</span></td>
+      <td>{{ data.user.name }}</td>
+      <td>
+        <span *ngFor="let ip of data.ipAddresses">{{ip}}<br></span>
+      </td>
+      <td>
+        <nz-tag nzColor="green" *ngIf="data.online">Online</nz-tag>
+        <nz-tag nzColor="red" *ngIf="!data.online">Offline</nz-tag>
+        <ng-container *ngIf="data.subnets && data.subnets.length>0">
+          <nz-tag nzColor="magenta" *ngIf="data.subnets_enabled_num>0">
+            SubNet {{data.subnets_enabled_num}}/{{data.subnets.length}}</nz-tag>
+        </ng-container>
+        <ng-container *ngIf="data.exitNodes && data.exitNodes.length>0">
+          <nz-tag nzColor="geekblue" *ngIf="data.exitNode_enabled_num>0">ExitNode {{data.exitNode_enabled_num}}
+            /{{data.exitNodes.length}}</nz-tag>
+        </ng-container>
+
+      </td>
+      <td>
+        <nz-button-group>
+          <button nz-button (click)="onExpandChange(data.id,!expandSet.has(data.id))">Details
+          </button>
+          <button nz-button nz-dropdown [nzDropdownMenu]="menu" nzPlacement="bottomRight">
+            <span nz-icon nzType="ellipsis"></span>
+          </button>
+        </nz-button-group>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu>
+            <li nz-menu-item>
+              <a nz-button nzType="link" nzSize="small" (click)="renameMachine(data)">Rename Machine</a>
+            </li>
+            <li nz-menu-item>
+              <a nz-button nzType="link" nzSize="small" (click)="tagEditMachine=data">Edit Tags</a>
+            </li>
+            <li nz-menu-item>
+              <a nz-button nzType="link" nzSize="small" (click)="changeOwner(data)">Change Owner</a>
+            </li>
+            <li nz-menu-divider></li>
+            <li nz-menu-item>
+              <a nz-button nzDanger nzType="link" nzSize="small" (click)="deleteMachine(data)">Delete Machine</a>
+            </li>
+          </ul>
+        </nz-dropdown-menu>
+      </td>
+    </tr>
+    <tr [nzExpand]="expandSet.has(data.id)">
+      <div nz-row>
+        <div nz-col nzSpan="12">
+          <nz-descriptions [nzColumn]="1">
+            <nz-descriptions-item
+              nzTitle="Created Time">{{data.createdAt|date:'yyyy-MM-dd HH:mm:ss'}}</nz-descriptions-item>
+            <nz-descriptions-item
+              nzTitle="Last Seen">{{data.lastSeen|date:'yyyy-MM-dd HH:mm:ss'}}</nz-descriptions-item>
+            <nz-descriptions-item
+              nzTitle="Last Update">{{data.lastSuccessfulUpdate|date:'yyyy-MM-dd HH:mm:ss'}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Register Method">{{data.registerMethod}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Forced Tags">
+              <span *ngIf="data.forcedTags.length<=0">None</span>
+              <nz-tag nzColor="cyan" *ngFor="let t of data.forcedTags">{{t}}</nz-tag>
+            </nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Invalid Tags">
+              <span *ngIf="data.invalidTags.length<=0">None</span>
+              <nz-tag nzColor="volcano" *ngFor="let t of data.invalidTags">{{t}}</nz-tag>
+            </nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Valid Tags">
+              <span *ngIf="data.validTags.length<=0">None</span>
+              <nz-tag nzColor="lime" *ngFor="let t of data.validTags">{{t}}</nz-tag>
+            </nz-descriptions-item>
+          </nz-descriptions>
+        </div>
+        <div nz-col nzSpan="12">
+          <nz-list nzBordered nzHeader="Exit Node" nzSize="small" style="margin-bottom: 10px"
+                   *ngIf="data.exitNodes && data.exitNodes.length>0">
+            <nz-list-item *ngFor="let eni of data.exitNodes">
+              <span>
+                <span *ngIf="eni.prefix==='0.0.0.0/0'">IPv4</span>
+                <span *ngIf="eni.prefix==='::/0'">IPv6</span>&nbsp;
+                 <nz-tag nzColor="geekblue" *ngIf="eni.enabled">Enabled</nz-tag>
+                 <nz-tag nzColor="default" *ngIf="!eni.enabled">Disabled</nz-tag>
+              </span>
+              <a nz-button nzType="default" *ngIf="!eni.enabled" (click)="enableRoute(eni.id)">Enable</a>
+              <a nz-button nzType="default" *ngIf="eni.enabled" (click)="disableRoute(eni.id)">Disable</a>
+            </nz-list-item>
+          </nz-list>
+          <nz-list nzBordered nzHeader="Sub Nets" nzSize="small" *ngIf="data.subnets && data.subnets.length>0">
+            <nz-list-item *ngFor="let sni of data.subnets">
+              <span>
+                {{sni.prefix}}&nbsp;
+                 <nz-tag nzColor="geekblue" *ngIf="sni.enabled">Enabled</nz-tag>
+                 <nz-tag nzColor="default" *ngIf="!sni.enabled">Disabled</nz-tag>
+              </span>
+              <a nz-button nzType="default" *ngIf="!sni.enabled" (click)="enableRoute(sni.id)">Enable</a>
+              <a nz-button nzType="default" *ngIf="sni.enabled" (click)="disableRoute(sni.id)">Disable</a>
+            </nz-list-item>
+          </nz-list>
+        </div>
+      </div>
+    </tr>
+  </ng-container>
+  </tbody>
+</nz-table>
+<nz-modal [nzVisible]="changeOwnerMachine.id" [nzTitle]="'Change Machine Owner: '+changeOwnerMachine.givenName"
+          (nzOnOk)="doChangeOwner()" [nzClosable]="false" nzWidth="460px" (nzOnCancel)="changeOwnerMachine={}">
+  <ng-container *nzModalContent>
+    <nz-select [(ngModel)]="changeOwnerUser" style="width: 100%;">
+      <nz-option [nzValue]="u.name" [nzLabel]="u.name" *ngFor="let u of users"></nz-option>
+    </nz-select>
+  </ng-container>
+</nz-modal>
+
+<nz-modal [nzVisible]="tagEditMachine.id" [nzTitle]="'Change Machine Tags: '+tagEditMachine.givenName"
+          [nzMaskClosable]="false"
+          nzWidth="460px" nzCancelText="Close" [nzOkText]="null" (nzOnCancel)="tagEditMachine={}">
+  <ng-container *nzModalContent>
+    <nz-tag *ngFor="let tag of tagEditMachine.forcedTags;" nzMode="closeable" (nzOnClose)="handleClose(tag)">{{tag}}</nz-tag>
+    <nz-tag *ngIf="!inputVisible" class="editable-tag" nzNoAnimation (click)="showInput()">
+      <span nz-icon nzType="plus"></span>
+      New Tag
+    </nz-tag>
+    <input #inputElement nz-input nzSize="small" *ngIf="inputVisible" type="text"
+           [(ngModel)]="inputValue" style="width: 78px;" (blur)="handleInputConfirm()"
+           (keydown.enter)="handleInputConfirm()"
+    />
+  </ng-container>
+</nz-modal>

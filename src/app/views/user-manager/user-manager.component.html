@@ -1,0 +1,68 @@
+<nz-page-header [nzGhost]="false">
+  <nz-page-header-title>Users</nz-page-header-title>
+  <nz-page-header-extra>
+    <button nz-button nzType="primary" (click)="newUser()">New User</button>
+  </nz-page-header-extra>
+</nz-page-header>
+<nz-table #nzTable nzSize="small" [nzData]="users" [nzFrontPagination]="false" nzTableLayout="fixed">
+  <thead>
+  <tr>
+    <th nzWidth="60px"></th>
+    <th nzWidth="60px">Id</th>
+    <th>Name</th>
+    <th>Create Time</th>
+    <th nzWidth="160px">Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <ng-container *ngFor="let data of nzTable.data">
+    <tr>
+      <td [nzExpand]="expandSet.has(data.name)" (nzExpandChange)="onExpandChange(data.name, $event)"></td>
+      <td>{{ data.id }}</td>
+      <td>{{ data.name }}</td>
+      <td>{{ data.createdAt | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+      <td>
+        <nz-button-group>
+          <button nz-button (click)="onExpandChange(data.name,!expandSet.has(data.name))">PreAuthKeys
+          </button>
+          <button nz-button nz-dropdown [nzDropdownMenu]="menu" nzPlacement="bottomRight">
+            <span nz-icon nzType="ellipsis"></span>
+          </button>
+        </nz-button-group>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu>
+            <li nz-menu-item>
+              <a nz-button nzType="link" nzSize="small" (click)="createPreAuthKey(data.name)">Create PreAuthKey</a>
+            </li>
+            <li nz-menu-item>
+              <a nz-button nzType="link" nzSize="small" (click)="renameUser(data.name)">Rename User</a>
+            </li>
+            <li nz-menu-divider></li>
+            <li nz-menu-item>
+              <a nz-button nzDanger nzType="link" nzSize="small" (click)="deleteUser(data.name)">Delete User</a>
+            </li>
+          </ul>
+        </nz-dropdown-menu>
+      </td>
+    </tr>
+    <tr [nzExpand]="expandSet.has(data.name)">
+      <nz-list nzBordered nzSize="small">
+        <nz-list-item *ngFor="let pak of preAuthKeys[data.name]">
+          <span>
+            {{pak.key}}
+            <nz-tag nzColor="blue">Expiration:{{pak.expiration|date:'yyyy-MM-dd HH:mm:ss'}}</nz-tag>
+            <nz-tag nzColor="lime" *ngIf="pak.ephemeral">Ephemeral</nz-tag>
+            <nz-tag nzColor="purple" *ngIf="pak.reusable">Reusable</nz-tag>
+            <nz-tag nzColor="red" *ngIf="pak.used">Used</nz-tag>
+          </span>
+          <ul nz-list-item-actions>
+            <nz-list-item-action>
+              <a (click)="expirePreAuthKey(pak)">Expire</a>
+            </nz-list-item-action>
+          </ul>
+        </nz-list-item>
+      </nz-list>
+    </tr>
+  </ng-container>
+  </tbody>
+</nz-table>
