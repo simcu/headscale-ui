@@ -30,3 +30,11 @@ jobs:
           prerelease: false
           files: |
             dist/headscale-ui-${{ github.ref_name }}.zip
+
+      - name: Create Docker File
+        run: |
+          echo "FROM nginx:alpine" > Dockerfile
+          echo "COPY dist/headscale-ui /usr/share/nginx/html/manager" >> Dockerfile
+          echo "WORKDIR /usr/share/nginx/html/" >> Dockerfile
+          pwd
+          cat Dockerfile
