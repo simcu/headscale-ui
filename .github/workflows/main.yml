@@ -19,6 +19,7 @@ jobs:
           version=`git describe --tags`
           npm i
           npm run build
+          zip -r headscale-ui-${{ env.ReleaseVersion }}.zip dist/headscale-ui
       - name: Create GitHub release
         uses: marvinpinto/action-automatic-releases@latest
         with:
@@ -27,4 +28,4 @@ jobs:
           title: ${{ env.ReleaseVersion }}
           prerelease: false
           files: |
-            dist/headscale-ui/*
+            headscale-ui-${{ env.ReleaseVersion }}.zip
