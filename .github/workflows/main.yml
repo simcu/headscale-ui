@@ -3,7 +3,7 @@ name: main
 on:
   push:
     tags:
-    - '*'
+      - '*'
 
 jobs:
   build:
@@ -19,7 +19,8 @@ jobs:
           version=`git describe --tags`
           npm i
           npm run build
-          zip -r headscale-ui-${{ env.ReleaseVersion }}.zip dist/headscale-ui
+          cd dist
+          zip -r headscale-ui-${{ github.ref_name }}.zip headscale-ui
       - name: Create GitHub release
         uses: marvinpinto/action-automatic-releases@latest
         with:
@@ -28,4 +29,4 @@ jobs:
           title: ${{ env.ReleaseVersion }}
           prerelease: false
           files: |
-            headscale-ui-${{ env.ReleaseVersion }}.zip
+            dist/headscale-ui-${{ github.ref_name }}.zip
