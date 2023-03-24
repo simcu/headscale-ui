@@ -39,11 +39,19 @@
         <nz-tag nzColor="red" *ngIf="!data.online">Offline</nz-tag>
         <ng-container *ngIf="data.subnets && data.subnets.length>0">
           <nz-tag nzColor="magenta" *ngIf="data.subnets_enabled_num>0">
-            SubNet {{data.subnets_enabled_num}}/{{data.subnets.length}}</nz-tag>
+            SubNet {{data.subnets_enabled_num}}/{{data.subnets.length}}
+          </nz-tag>
+          <nz-tag nzColor="default" *ngIf="data.subnets_enabled_num<=0">
+            SubNet {{data.subnets_enabled_num}}/{{data.subnets.length}}
+          </nz-tag>
         </ng-container>
         <ng-container *ngIf="data.exitNodes && data.exitNodes.length>0">
-          <nz-tag nzColor="geekblue" *ngIf="data.exitNode_enabled_num>0">ExitNode {{data.exitNode_enabled_num}}
-            /{{data.exitNodes.length}}</nz-tag>
+          <nz-tag nzColor="geekblue" *ngIf="data.exitNode_enabled_num>0">
+            ExitNode {{data.exitNode_enabled_num}}/{{data.exitNodes.length}}
+          </nz-tag>
+          <nz-tag nzColor="default" *ngIf="data.exitNode_enabled_num<=0">
+            ExitNode {{data.exitNode_enabled_num}}/{{data.exitNodes.length}}
+          </nz-tag>
         </ng-container>
 
       </td>

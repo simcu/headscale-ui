@@ -1,7 +1,9 @@
 <nz-card style="width:450px; left:calc(50% - 225px);position: fixed; top:calc(50% - 160px)"
          [nzTitle]="titleTpl" [nzExtra]="extraTemplate">
-  <p>Server Url:</p>
-  <p>{{serverUrl}}</p>
+  <ng-container *ngIf="serverUrl && serverUrl!=='/'">
+    <p>Server Url:</p>
+    <p>{{serverUrl}}</p>
+  </ng-container>
   <p>ApiKeys:</p>
   <p><input nz-input [(ngModel)]="apiKeys"/></p>
   <p>

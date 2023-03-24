@@ -29,6 +29,10 @@ export class HttpApiInterceptor implements HttpInterceptor {
         localStorage.setItem('serverKey', '');
         this.router.navigateByUrl('/login');
       }
+      if (error.status === 404 || error.status == 0) {
+        this.router.navigateByUrl('/login');
+      }
+      console.log(error)
       return of(error)
     }));
   }
