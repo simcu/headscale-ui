@@ -179,7 +179,7 @@ export class MachineManagerComponent implements OnInit {
       nzFooter: null
     }).afterClose.subscribe(x => {
       if (x) {
-        this.api.machineRegister(this.user, 'nodekey:' + x.replace('nodekey:')).subscribe(x => {
+        this.api.machineRegister(this.user, 'nodekey:' + x.replace('nodekey:','')).subscribe(x => {
           this.msg.success('Register machine success');
           this.getList();
         })
