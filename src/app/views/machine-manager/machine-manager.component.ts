@@ -51,7 +51,7 @@ export class MachineManagerComponent implements OnInit {
 
   getList() {
     this.api.machineList(this.user).subscribe(x => {
-      this.machines = x.machines.sort(this.compare('id', true));
+      this.machines = x.machines.sort((a: any, b: any) => parseInt(a.id) - parseInt(b.id));
       this.getRoutes();
       if (this.tagEditMachine.id) {
         this.tagEditMachine = this.machines.find(x => x.id == this.tagEditMachine.id);
@@ -88,19 +88,6 @@ export class MachineManagerComponent implements OnInit {
         }
       }
     })
-  }
-
-  compare(property: string, asc: boolean) {
-    return function (value1: { [x: string]: any; }, value2: { [x: string]: any; }) {
-      let a = value1[property]
-      let b = value2[property]
-      // 默认升序
-      if (asc == undefined) {
-        return a - b
-      } else {
-        return asc ? a - b : b - a
-      }
-    }
   }
 
   onExpandChange(id: string, checked: boolean): void {
@@ -179,7 +166,7 @@ export class MachineManagerComponent implements OnInit {
       nzFooter: null
     }).afterClose.subscribe(x => {
       if (x) {
-        this.api.machineRegister(this.user, 'nodekey:' + x.replace('nodekey:','')).subscribe(x => {
+        this.api.machineRegister(this.user, 'nodekey:' + x.replace('nodekey:', '')).subscribe(x => {
           this.msg.success('Register machine success');
           this.getList();
         })

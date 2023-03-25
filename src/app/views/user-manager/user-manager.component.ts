@@ -26,28 +26,14 @@ export class UserManagerComponent implements OnInit {
 
   getList() {
     this.api.userList().subscribe(x => {
-      this.users = x.users.sort(this.compare('id', true));
+      this.users = x.users.sort((a: any, b: any) => parseInt(a.id) - parseInt(b.id));
     });
   }
 
   getPreAuthKeys(user: string) {
     this.api.preAuthKeyList(user).subscribe(x => {
       this.preAuthKeys[user] = x.preAuthKeys;
-      console.log(x.preAuthKeys)
     })
-  }
-
-  compare(property: string, asc: boolean) {
-    return function (value1: { [x: string]: any; }, value2: { [x: string]: any; }) {
-      let a = value1[property]
-      let b = value2[property]
-      // 默认升序
-      if (asc == undefined) {
-        return a - b
-      } else {
-        return asc ? a - b : b - a
-      }
-    }
   }
 
   onExpandChange(name: string, checked: boolean): void {

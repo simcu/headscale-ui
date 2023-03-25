@@ -6,13 +6,13 @@ import {
   HttpInterceptor, HttpResponse
 } from '@angular/common/http';
 import {catchError, mergeMap, Observable, of} from 'rxjs';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {NzMessageService} from 'ng-zorro-antd/message';
 
 @Injectable()
 export class HttpApiInterceptor implements HttpInterceptor {
 
-  constructor(private router: Router, private msg: NzMessageService) {
+  constructor(private router: Router, private msg: NzMessageService, private route: ActivatedRoute) {
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
@@ -32,7 +32,6 @@ export class HttpApiInterceptor implements HttpInterceptor {
       if (error.status === 404 || error.status == 0) {
         this.router.navigateByUrl('/login');
       }
-      console.log(error)
       return of(error)
     }));
   }
