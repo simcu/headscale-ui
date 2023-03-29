@@ -41,6 +41,22 @@ emmm.... I don't know how to describe this action.... it is really very easy...
 4.  if you deploy this standalone, on login page click "Change Server" then, input server url.
 5. input apikey , click "Login"
 
+### C: use caddy
+```
+domain.com {
+        @ui {
+                path_regexp (/$)|(\.)
+        }
+        handle @ui {
+                root * /www/headscale-ui
+                try_files {path} /index.html
+                file_server
+        }
+
+        reverse_proxy 127.0.0.1:7070
+}
+```
+
 ## Notice
 1. ServerUrl and ApiKey are saved in localstorage in plain text. 
 2. you will only need login once.if apikey is invalid , system will require login again.
