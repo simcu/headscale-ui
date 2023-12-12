@@ -12,39 +12,39 @@ export class ApiService {
 
   ///Machine api start
   machineList(user: string): Observable<any> {
-    return this.http.get(`/api/v1/machine?user=${user}`)
+    return this.http.get(`/api/v1/node?user=${user}`)
   }
 
   machineRegister(user: string, key: string): Observable<any> {
-    return this.http.post(`/api/v1/machine/register?user=${user}&key=${key}`, null);
+    return this.http.post(`/api/v1/node/register?user=${user}&key=${key}`, null);
   }
 
   machineDetail(machineId: string): Observable<any> {
-    return this.http.get(`/api/v1/machine/${machineId}`);
+    return this.http.get(`/api/v1/node/${machineId}`);
   }
 
   machineExpire(machineId: string): Observable<any> {
-    return this.http.post(`/api/v1/machine/${machineId}/expire`, null);
+    return this.http.post(`/api/v1/node/${machineId}/expire`, null);
   }
 
   machineDelete(machineId: string): Observable<any> {
-    return this.http.delete(`/api/v1/machine/${machineId}`);
+    return this.http.delete(`/api/v1/node/${machineId}`);
   }
 
   machineRename(machineId: string, name: string): Observable<any> {
-    return this.http.post(`/api/v1/machine/${machineId}/rename/${name}`, null);
+    return this.http.post(`/api/v1/node/${machineId}/rename/${name}`, null);
   }
 
   machineRoutes(machineId: string): Observable<any> {
-    return this.http.get(`/api/v1/machine/${machineId}/routes`);
+    return this.http.get(`/api/v1/node/${machineId}/routes`);
   }
 
   machineTag(machineId: string, tags: Array<string>): Observable<any> {
-    return this.http.post(`/api/v1/machine/${machineId}/tags`, {tags});
+    return this.http.post(`/api/v1/node/${machineId}/tags`, {tags});
   }
 
   machineChangeUser(machineId: string, user: string): Observable<any> {
-    return this.http.post(`/api/v1/machine/${machineId}/user?user=${user}`, null);
+    return this.http.post(`/api/v1/node/${machineId}/user?user=${user}`, null);
   }
 
 
