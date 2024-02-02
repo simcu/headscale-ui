@@ -48,14 +48,13 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push Docker image
-        uses: docker/setup-qemu-action@v2
+      - name: Build Docker Images for Multi Platform
+        # You may pin to the exact commit or the version.
+        # uses: huaweicloud/swr-multiplatform-build-action@0dba9fc56ef5a21bc21884b29101e584fbbb539c
+        uses: huaweicloud/swr-multiplatform-build-action@v1.2.1
         with:
+          # the docker images build tag
+          image_tag: simcu/headscale-ui:${{ github.ref_name }}
           platforms: linux/amd64,linux/arm64
-      - name: Build and push Docker image
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
-        with:
-          context: .
           push: true
-          tags: simcu/headscale-ui
-          labels: latest ${{ github.ref_name }}
+          
