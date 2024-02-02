@@ -51,7 +51,7 @@ export class MachineManagerComponent implements OnInit {
 
   getList() {
     this.api.machineList(this.user).subscribe(x => {
-      this.machines = x.machines.sort((a: any, b: any) => parseInt(a.id) - parseInt(b.id));
+      this.machines = x.nodes.sort((a: any, b: any) => parseInt(a.id) - parseInt(b.id));
       this.getRoutes();
       if (this.tagEditMachine.id) {
         this.tagEditMachine = this.machines.find(x => x.id == this.tagEditMachine.id);
