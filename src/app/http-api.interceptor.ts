@@ -31,7 +31,9 @@ export class HttpApiInterceptor implements HttpInterceptor {
       }
       if (error.status === 404 || error.status == 0) {
         this.msg.error("Error message: " + error.error.message + "<br />API endpoint not found, either Headscale Url or version is wrong. <br /> Exit and configure the correct URL and version.");
-        //this.router.navigateByUrl('/login');
+        if(localStorage.getItem('serverKey') == null){
+          this.router.navigateByUrl('/login');
+        }
       }
       return of(error)
     }));
