@@ -1,24 +1,55 @@
-<nz-card style="width:450px; left:calc(50% - 225px);position: fixed; top:calc(50% - 160px)"
-         [nzTitle]="titleTpl" [nzExtra]="extraTemplate">
-  <ng-container *ngIf="serverUrl && serverUrl!=='/'">
+<nz-card
+  style="
+    width: 450px;
+    left: calc(50% - 225px);
+    position: fixed;
+    top: calc(50% - 160px);
+  "
+  [nzTitle]="titleTpl"
+  [nzExtra]="extraTemplate"
+>
+  <ng-container *ngIf="serverUrl && serverUrl !== '/'">
     <p>Server Url:</p>
-    <p>{{serverUrl}}</p>
+    <p>{{ serverUrl }}</p>
   </ng-container>
   <p>ApiKeys:</p>
-  <p><input nz-input [(ngModel)]="apiKeys"/></p>
+  <p><input nz-input [(ngModel)]="apiKeys" /></p>
   <p>
-    <button (click)="doLogin()" nz-button nzType="primary" nzSize="large" nzBlock>Login</button>
+    <button
+      (click)="doLogin()"
+      nz-button
+      nzType="primary"
+      nzSize="large"
+      nzBlock
+    >
+      Login
+    </button>
   </p>
 </nz-card>
 <ng-template #extraTemplate>
   <a (click)="showChangeServer()">Change Server</a>
 </ng-template>
 <ng-template #titleTpl>
-  <img src="./assets/simcu.png" width="30"> Server Login
+  <img src="./assets/simcu.png" width="30" /> Server Login
 </ng-template>
-<nz-modal [(nzVisible)]="changeServerShow" nzTitle="Change Server" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+<nz-modal
+  [(nzVisible)]="changeServerShow"
+  nzTitle="Change Server"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+>
   <ng-container *nzModalContent>
     <p>Server Url:</p>
-    <p><input nz-input [(ngModel)]="changeServerUrl"/></p>
+    <p><input nz-input [(ngModel)]="changeServerUrl" /></p>
+    <p>HS Version</p>
+    <!-- Select Version -->
+    <nz-select
+      [(ngModel)]="hsVersion"
+      nzPlaceHolder="Select Version"
+      style="width: 100%"
+    >
+      <nz-option nzValue="v0.23" nzLabel="Versio v0.23 and above"></nz-option>
+      <nz-option nzValue="v0.22" nzLabel="Version v0.22 and lower"></nz-option>
+    </nz-select>
   </ng-container>
 </nz-modal>
