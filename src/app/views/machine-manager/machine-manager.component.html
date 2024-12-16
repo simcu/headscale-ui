@@ -127,6 +127,8 @@
                 {{sni.prefix}}&nbsp;
                  <nz-tag nzColor="geekblue" *ngIf="sni.enabled">Enabled</nz-tag>
                  <nz-tag nzColor="default" *ngIf="!sni.enabled">Disabled</nz-tag>
+                 <nz-tag nzColor="orange" *ngIf="sni.isPrimary">Primary</nz-tag>
+                 <nz-tag nzColor="pink" *ngIf="!sni.advertised">Not advertised</nz-tag>
               </span>
               <a nz-button nzType="default" *ngIf="!sni.enabled" (click)="enableRoute(sni.id)">Enable</a>
               <a nz-button nzType="default" *ngIf="sni.enabled" (click)="disableRoute(sni.id)">Disable</a>
