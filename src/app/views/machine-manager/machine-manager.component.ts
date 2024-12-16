@@ -145,6 +145,13 @@ export class MachineManagerComponent implements OnInit {
     })
   }
 
+  deleteRoute(id: string) {
+    this.api.routeDelete(id).subscribe(x => {
+      this.msg.success('Route Delete success');
+      this.getList();
+    })
+  }
+
   userChange(e: any) {
     if (e) {
       this.router.navigateByUrl(`/machine?user=${e}`)

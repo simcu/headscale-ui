@@ -116,9 +116,24 @@
                 <span *ngIf="eni.prefix==='::/0'">IPv6</span>&nbsp;
                  <nz-tag nzColor="geekblue" *ngIf="eni.enabled">Enabled</nz-tag>
                  <nz-tag nzColor="default" *ngIf="!eni.enabled">Disabled</nz-tag>
+                 <nz-tag nzColor="pink" *ngIf="!eni.advertised">Not advertised</nz-tag>
               </span>
-              <a nz-button nzType="default" *ngIf="!eni.enabled" (click)="enableRoute(eni.id)">Enable</a>
-              <a nz-button nzType="default" *ngIf="eni.enabled" (click)="disableRoute(eni.id)">Disable</a>
+              <span>
+                <nz-button-group>
+                  <button nz-button nzType="default" *ngIf="!eni.enabled" [disabled]="!eni.advertised" (click)="enableRoute(eni.id)">Enable</button>
+                  <button nz-button nzType="default" *ngIf="eni.enabled" (click)="disableRoute(eni.id)">Disable</button>
+                  <button nz-button nz-dropdown [nzDropdownMenu]="menu2" nzPlacement="bottomRight">
+                    <span nz-icon nzType="ellipsis"></span>
+                  </button>
+                </nz-button-group>
+                <nz-dropdown-menu #menu2="nzDropdownMenu">
+                  <ul nz-menu>
+                    <li nz-menu-item>
+                      <a nz-button nzDanger nzType="link" nzSize="small" (click)="deleteRoute(eni.id)">Delete Route</a>
+                    </li>
+                  </ul>
+                </nz-dropdown-menu>
+              </span>
             </nz-list-item>
           </nz-list>
           <nz-list nzBordered nzHeader="Sub Nets" nzSize="small" *ngIf="data.subnets && data.subnets.length>0">
@@ -130,8 +145,22 @@
                  <nz-tag nzColor="orange" *ngIf="sni.isPrimary">Primary</nz-tag>
                  <nz-tag nzColor="pink" *ngIf="!sni.advertised">Not advertised</nz-tag>
               </span>
-              <a nz-button nzType="default" *ngIf="!sni.enabled" (click)="enableRoute(sni.id)">Enable</a>
-              <a nz-button nzType="default" *ngIf="sni.enabled" (click)="disableRoute(sni.id)">Disable</a>
+              <span>
+                <nz-button-group>
+                  <button nz-button nzType="default" *ngIf="!sni.enabled" [disabled]="!sni.advertised" (click)="enableRoute(sni.id)">Enable</button>
+                  <button nz-button nzType="default" *ngIf="sni.enabled" (click)="disableRoute(sni.id)">Disable</button>
+                  <button nz-button nz-dropdown [nzDropdownMenu]="menu3" nzPlacement="bottomRight">
+                    <span nz-icon nzType="ellipsis"></span>
+                  </button>
+                </nz-button-group>
+                <nz-dropdown-menu #menu3="nzDropdownMenu">
+                  <ul nz-menu>
+                    <li nz-menu-item>
+                      <a nz-button nzDanger nzType="link" nzSize="small" (click)="deleteRoute(sni.id)">Delete Route</a>
+                    </li>
+                  </ul>
+                </nz-dropdown-menu>
+              </span>
             </nz-list-item>
           </nz-list>
         </div>
