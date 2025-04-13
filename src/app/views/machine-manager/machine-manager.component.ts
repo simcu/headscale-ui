@@ -70,7 +70,7 @@ export class MachineManagerComponent implements OnInit {
   getRoutes() {
     this.api.routeList().subscribe(x => {
       for (let r of x.routes) {
-        let m = this.machines.find(x => x.id === r.machine.id);
+        let m = this.machines.find(x => x.id === r.node.id);
         if (m) {
           if (['0.0.0.0/0', '::/0'].indexOf(r.prefix) !== -1) {
             if (m['exitNodes']) {
@@ -149,6 +149,13 @@ export class MachineManagerComponent implements OnInit {
   disableRoute(id: string) {
     this.api.routeDisable(id).subscribe(x => {
       this.msg.success('Route Disable success');
+      this.getList();
+    })
+  }
+
+  deleteRoute(id: string) {
+    this.api.routeDelete(id).subscribe(x => {
+      this.msg.success('Route Delete success');
       this.getList();
     })
   }
