@@ -12,39 +12,84 @@ export class ApiService {
 
   ///Machine api start
   machineList(user: string): Observable<any> {
-    return this.http.get(`/api/v1/node?user=${user}`)
+    let version = localStorage.getItem('hsVersion') ?? 'v0.23';
+    if (version == 'v0.23'){
+      return this.http.get(`/api/v1/node?user=${user}`)
+    }else{
+      return this.http.get(`/api/v1/machine?user=${user}`)
+    }
   }
 
   machineRegister(user: string, key: string): Observable<any> {
-    return this.http.post(`/api/v1/node/register?user=${user}&key=${key}`, null);
+    let version = localStorage.getItem('hsVersion') ?? 'v0.23';
+    if (version == 'v0.23'){
+      return this.http.post(`/api/v1/node/register?user=${user}&key=${key}`, null);  
+    }else{
+      return this.http.post(`/api/v1/machine/register?user=${user}&key=${key}`, null);
+    }
   }
 
   machineDetail(machineId: string): Observable<any> {
-    return this.http.get(`/api/v1/node/${machineId}`);
+    let version = localStorage.getItem('hsVersion') ?? 'v0.23';
+    if (version == 'v0.23'){
+      return this.http.get(`/api/v1/node/${machineId}`);  
+    }else{
+      return this.http.get(`/api/v1/machine/${machineId}`);
+    }
   }
 
   machineExpire(machineId: string): Observable<any> {
-    return this.http.post(`/api/v1/node/${machineId}/expire`, null);
+    let version = localStorage.getItem('hsVersion') ?? 'v0.23';
+    if (version == 'v0.23'){
+      return this.http.post(`/api/v1/node/${machineId}/expire`, null);  
+    }else{
+      return this.http.post(`/api/v1/machine/${machineId}/expire`, null);
+    }
   }
 
   machineDelete(machineId: string): Observable<any> {
-    return this.http.delete(`/api/v1/node/${machineId}`);
+    let version = localStorage.getItem('hsVersion') ?? 'v0.23';
+    if (version == 'v0.23'){
+      return this.http.delete(`/api/v1/node/${machineId}`);  
+    }else{
+      return this.http.delete(`/api/v1/machine/${machineId}`);
+    }
   }
 
   machineRename(machineId: string, name: string): Observable<any> {
-    return this.http.post(`/api/v1/node/${machineId}/rename/${name}`, null);
+    let version = localStorage.getItem('hsVersion') ?? 'v0.23';
+    if (version == 'v0.23'){
+      return this.http.post(`/api/v1/node/${machineId}/rename/${name}`, null);  
+    }else{
+      return this.http.post(`/api/v1/machine/${machineId}/rename/${name}`, null);
+    }
   }
 
   machineRoutes(machineId: string): Observable<any> {
-    return this.http.get(`/api/v1/node/${machineId}/routes`);
+    let version = localStorage.getItem('hsVersion') ?? 'v0.23';
+    if (version == 'v0.23'){
+      return this.http.get(`/api/v1/node/${machineId}/routes`);  
+    }else{
+      return this.http.get(`/api/v1/machine/${machineId}/routes`);
+    }
   }
 
   machineTag(machineId: string, tags: Array<string>): Observable<any> {
-    return this.http.post(`/api/v1/node/${machineId}/tags`, {tags});
+    let version = localStorage.getItem('hsVersion') ?? 'v0.23';
+    if (version == 'v0.23'){
+      return this.http.post(`/api/v1/node/${machineId}/tags`, {tags});  
+    }else{
+      return this.http.post(`/api/v1/machine/${machineId}/tags`, {tags});
+    }
   }
 
   machineChangeUser(machineId: string, user: string): Observable<any> {
-    return this.http.post(`/api/v1/node/${machineId}/user?user=${user}`, null);
+    let version = localStorage.getItem('hsVersion') ?? 'v0.23';
+    if (version == 'v0.23'){
+      return this.http.post(`/api/v1/node/${machineId}/user?user=${user}`, null);  
+    }else{
+      return this.http.post(`/api/v1/machine/${machineId}/user?user=${user}`, null);
+    }
   }
 
 

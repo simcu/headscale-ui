@@ -3,6 +3,8 @@
 
 This is a static headscale admin ui, no backend enviroment required
 
+The current release is backward compatible with headscale v0.22 as well as compatible with the future headscale v0.23;
+
 ## Thanks
 
 Headscale - https://github.com/juanfont/headscale  version: v0.21.0

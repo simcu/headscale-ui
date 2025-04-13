@@ -24,13 +24,16 @@ export class HttpApiInterceptor implements HttpInterceptor {
       url: (localStorage.getItem('serverUrl') ?? '') + request.url
     });
     return next.handle(resetReq).pipe(catchError((error: any): Observable<any> => {
-      this.msg.error(error.error.message ?? error.error);
       if (error.error === 'Unauthorized') {
+        this.msg.error(error.error.message ?? error.error);
         localStorage.setItem('serverKey', '');
         this.router.navigateByUrl('/login');
       }
       if (error.status === 404 || error.status == 0) {
-        this.router.navigateByUrl('/login');
+        this.msg.error("Error message: " + error.error.message + "<br />API endpoint not found, either Headscale Url or version is wrong. <br /> Exit and configure the correct URL and version.");
+        if(localStorage.getItem('serverKey') == null){
+          this.router.navigateByUrl('/login');
+        }
       }
       return of(error)
     }));

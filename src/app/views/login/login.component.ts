@@ -12,6 +12,7 @@ export class LoginComponent implements OnInit {
   serverUrl = '/';
   apiKeys = '';
   changeServerUrl = '';
+  hsVersion = '';
 
   changeServerShow = false;
 
@@ -39,7 +40,7 @@ export class LoginComponent implements OnInit {
     this.api.userList().subscribe(x => {
       this.router.navigateByUrl('');
     }, error => {
-      this.msg.error(error.error);
+      this.msg.error(error.error + 'teste');
     });
   }
 
@@ -49,12 +50,21 @@ export class LoginComponent implements OnInit {
     } else {
       this.serverUrl = this.changeServerUrl;
     }
+    
+    if(!this.hsVersion){
+      this.hsVersion = 'v0.23';
+    } else {
+      this.hsVersion = this.hsVersion
+    }
+
     localStorage.setItem('serverUrl', this.serverUrl);
+    localStorage.setItem('hsVersion', this.hsVersion);
     this.changeServerShow = false;
   }
 
   showChangeServer() {
-    this.changeServerUrl = '';
+
+    this.changeServerUrl = localStorage.getItem('serverUrl') ?? '';
     this.changeServerShow = true;
   }
 
